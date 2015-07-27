@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>Ambiguous Insight - JavaScript</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Ambiguous Insight </a></h1>
+                <nav><ul>
+                    <li><a href="/category/django.html">Django</a></li>
+                    <li><a href="/category/javascript.html">JavaScript</a></li>
+                    <li><a href="/category/misc.html">misc</a></li>
+                    <li><a href="/category/opinion.html">opinion</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/an-interesting-issue-with-emberjs-component-actions.html">An Interesting Issue with Ember.js Component Actions</a></h1>
+<footer class="post-info">
+        <span>Thu 24 October 2013</span>
+<span>| tags: <a href="/tag/emberjs.html">Ember.js</a><a href="/tag/javascript.html">JavaScript</a></span>
+</footer><!-- /.post-info --><p>I have been working on a project for work and ran into an issue with passing actions out of an Ember controller.
+I am using Ember 1.0.0. I found that the documentation as provided is unclear.</p>
+<p>So basically I have a component that has an action and I want to pass that action out to the parent controller.
+The <a href="http://emberjs.com/guides/components/sending-actions-from-components-to-your-application/">documentation</a> makes it appear that the following code is all that is needed:</p>
+<div class="highlight"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">sendAction</span><span class="p">(</span><span class="s1">&#39;mySpecialClicked&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="nx">App</span><span class="p">.</span><span class="nx">IndexController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Controller</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">mySpecialClicked</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="c1">// perform some action here.</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>Unfortunately, this does not work.
+Instead the App.MySpecialComponent class must have a property named the same as the string passed to <code>this.sendAction()</code>.
+The <a href="http://emberjs.com/api/classes/Ember.Component.html#method_sendAction">API documentation</a> says this in the text but the code samples do not show it.
+So instead your App.MySpecialComponent should look like this:</p>
+<div class="highlight"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+    <span class="nx">clicked</span><span class="o">:</span> <span class="s1">&#39;mySpecialClicked&#39;</span><span class="p">,</span>
+
+    <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">this</span><span class="p">.</span><span class="nx">sendAction</span><span class="p">(</span><span class="s1">&#39;clicked&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+
+
+<p>I really like the way that ember.js works and this is probably only a minor annoyance.
+However, I thought I would share in case someone else found themselves in the same quandary.</p>                </article>
+            </aside><!-- /#featured -->
+            </ol><!-- /#posts-list -->
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="https://www.positiveaction.org/">Positive Action for Christ</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="https://github.com/didorothy">github.com/didorothy</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
