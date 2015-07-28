@@ -31,7 +31,7 @@ def clean():
     """Remove generated files"""
     if os.path.isdir(DEPLOY_PATH):
         shutil.rmtree(DEPLOY_PATH)
-        os.makedirs(DEPLOY_PATH)
+    os.makedirs(DEPLOY_PATH)
 
 def build():
     """Build local version of site"""
@@ -90,6 +90,21 @@ def publish():
 
 def gh_pages():
     """Publish to GitHub Pages"""
-    rebuild()
-    local("C:\\Users\\ddorothy\\AppData\\Local\\Continuum\\Anaconda\\envs\\blog\\python.exe C:\\Users\\ddorothy\\AppData\\Local\\Continuum\\Anaconda\\envs\\blog\\Scripts\\ghp-import-script.py -b {github_pages_branch} {deploy_path}".format(**env))
-    local("git push git@github.com:didorothy/didorothy.github.io.git {github_pages_branch}:master".format(**env))
+    clean()
+    local("git submodule init")
+    local("git submodule update")
+    #local("git submodule add https://github.com/didorothy/didorothy.github.com {deploy_path}".format(**env))
+    #local("git clone git@github.com:didorothy/didorothy.github.io.git {deploy_path}".format(**env))
+    for names in os.listdir(DEPLOY_PATH):
+        for name in names:
+            if name.startswith('.'):
+                continue
+            if os.path.isdir(os.path.join(DEPLOY_PATH, name)):
+                shutil.rmtree(os.join(DEPLOY_PATH, name))
+            else:
+                os.remove(os.path.join(DEPLOY_PATH, name))
+    build()
+    os.chdir(DEPLOY_PATH)
+    local("git add .")
+    local("git commit")
+    #local("git push git@github.com:didorothy/didorothy.github.io.git master".format(**env))
