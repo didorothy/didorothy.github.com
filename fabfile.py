@@ -95,16 +95,16 @@ def gh_pages():
     local("git submodule update")
     #local("git submodule add https://github.com/didorothy/didorothy.github.com {deploy_path}".format(**env))
     #local("git clone git@github.com:didorothy/didorothy.github.io.git {deploy_path}".format(**env))
-    for names in os.listdir(DEPLOY_PATH):
-        for name in names:
-            if name.startswith('.'):
-                continue
-            if os.path.isdir(os.path.join(DEPLOY_PATH, name)):
-                shutil.rmtree(os.join(DEPLOY_PATH, name))
-            else:
-                os.remove(os.path.join(DEPLOY_PATH, name))
-    build()
-    os.chdir(DEPLOY_PATH)
-    local("git add .")
-    local("git commit")
+    #for names in os.listdir(DEPLOY_PATH):
+    #    for name in names:
+    #        if name.startswith('.'):
+    #            continue
+    #        if os.path.isdir(os.path.join(DEPLOY_PATH, name)):
+    #            shutil.rmtree(os.join(DEPLOY_PATH, name))
+    #        else:
+    #            os.remove(os.path.join(DEPLOY_PATH, name))
+    #build()
+    #os.chdir(DEPLOY_PATH)
+    #local("git add .")
+    #local("git commit")
     #local("git push git@github.com:didorothy/didorothy.github.io.git master".format(**env))
