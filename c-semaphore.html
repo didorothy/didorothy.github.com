@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8" />
+        <title>C# Semaphore</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Ambiguous Insight </a></h1>
+                <nav><ul>
+                    <li class="active"><a href="/category/csharp.html">csharp</a></li>
+                    <li><a href="/category/django.html">Django</a></li>
+                    <li><a href="/category/javascript.html">JavaScript</a></li>
+                    <li><a href="/category/misc.html">misc</a></li>
+                    <li><a href="/category/opinion.html">opinion</a></li>
+                </ul>
+                </nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/c-semaphore.html" rel="bookmark"
+           title="Permalink to C# Semaphore">C# Semaphore</a></h1>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <span>Mon 10 August 2015</span>
+<span>| tags: <a href="/tag/net.html">.NET</a><a href="/tag/c.html">C#</a></span>
+</footer><!-- /.post-info -->      <p>While working on building a resource pool I ran across a very interesting tool:
+<code>System.Threading.Semaphore</code>. Initially I thought that this would be used to
+handle locking but actually that is done with a <code>lock() {}</code> block. Semaphore
+instead provides a way to count how many resources are in use and to set an
+upper limit.</p>
+<p>For my purposes, building a resource pool, Semaphore provided a convenient way
+to limit the total number of resources that were available for use. Simply
+create a Semaphore and tell it how many resources you want to make available.
+Something like the following provides the basics:</p>
+<div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span> <span class="n">sem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+
+<span class="c1">// reserve a resource</span>
+<span class="n">sem</span><span class="p">.</span><span class="n">WaitOne</span><span class="p">();</span>
+
+<span class="c1">// release a resource.</span>
+<span class="n">sem</span><span class="p">.</span><span class="n">Release</span><span class="p">();</span>
+</pre></div>
+
+
+<p>The above shows the basics. Create the Semaphore; when you need a resource call
+<code>WaitOne()</code> before using/requesting the resource, and when you are finished
+call <code>Release()</code> after finished/returning the resource. The arguments passed
+when creating a Semaphore tell the starting amount available and the limit. I
+did not see a specific need for making these numbers different but there is
+probably a specific use case where this is helpful.</p>
+<p>A more complete (though not necessaryly functional) example follows:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Pool</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span> <span class="n">sem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+    <span class="k">private</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Queue</span> <span class="n">resources</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Queue</span><span class="p">();</span>
+
+    <span class="k">public</span> <span class="kt">object</span> <span class="nf">get_resource</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">sem</span><span class="p">.</span><span class="n">WaitOne</span><span class="p">();</span>
+        <span class="k">lock</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ... handle if no resources yet in our resources Queue</span>
+            <span class="k">return</span> <span class="n">resources</span><span class="p">.</span><span class="n">Dequeue</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">release_resource</span><span class="p">(</span><span class="kt">object</span> <span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">lock</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">resources</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">sem</span><span class="p">.</span><span class="n">Release</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Perhaps this will be helpful to someone.
+Either way it will be a good reference for me.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="https://www.positiveaction.org/">Positive Action for Christ</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+
+                            <li><a href="https://github.com/didorothy">github.com/didorothy</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <p>Powered by <a href="http://getpelican.com/">Pelican</a>. Theme <a href="https://github.com/blueicefield/pelican-blueidea/">blueidea</a>, inspired by the default theme.</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>

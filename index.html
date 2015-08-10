@@ -14,6 +14,7 @@
         <header id="banner" class="body">
                 <h1><a href="/">Ambiguous Insight </a></h1>
                 <nav><ul>
+                    <li><a href="/category/csharp.html">csharp</a></li>
                     <li><a href="/category/django.html">Django</a></li>
                     <li><a href="/category/javascript.html">JavaScript</a></li>
                     <li><a href="/category/misc.html">misc</a></li>
@@ -24,54 +25,81 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/an-interesting-issue-with-emberjs-component-actions.html">An Interesting Issue with Ember.js Component Actions</a></h1>
+                    <h1 class="entry-title"><a href="/c-semaphore.html">C# Semaphore</a></h1>
 <footer class="post-info">
-        <span>Thu 24 October 2013</span>
-<span>| tags: <a href="/tag/emberjs.html">Ember.js</a><a href="/tag/javascript.html">JavaScript</a></span>
-</footer><!-- /.post-info --><p>I have been working on a project for work and ran into an issue with passing actions out of an Ember controller.
-I am using Ember 1.0.0. I found that the documentation as provided is unclear.</p>
-<p>So basically I have a component that has an action and I want to pass that action out to the parent controller.
-The <a href="http://emberjs.com/guides/components/sending-actions-from-components-to-your-application/">documentation</a> makes it appear that the following code is all that is needed:</p>
-<div class="highlight"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-    <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">sendAction</span><span class="p">(</span><span class="s1">&#39;mySpecialClicked&#39;</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">});</span>
+        <span>Mon 10 August 2015</span>
+<span>| tags: <a href="/tag/net.html">.NET</a><a href="/tag/c.html">C#</a></span>
+</footer><!-- /.post-info --><p>While working on building a resource pool I ran across a very interesting tool:
+<code>System.Threading.Semaphore</code>. Initially I thought that this would be used to
+handle locking but actually that is done with a <code>lock() {}</code> block. Semaphore
+instead provides a way to count how many resources are in use and to set an
+upper limit.</p>
+<p>For my purposes, building a resource pool, Semaphore provided a convenient way
+to limit the total number of resources that were available for use. Simply
+create a Semaphore and tell it how many resources you want to make available.
+Something like the following provides the basics:</p>
+<div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span> <span class="n">sem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
 
-<span class="nx">App</span><span class="p">.</span><span class="nx">IndexController</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Controller</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-    <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">mySpecialClicked</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="c1">// perform some action here.</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">});</span>
+<span class="c1">// reserve a resource</span>
+<span class="n">sem</span><span class="p">.</span><span class="n">WaitOne</span><span class="p">();</span>
+
+<span class="c1">// release a resource.</span>
+<span class="n">sem</span><span class="p">.</span><span class="n">Release</span><span class="p">();</span>
 </pre></div>
 
 
-<p>Unfortunately, this does not work.
-Instead the App.MySpecialComponent class must have a property named the same as the string passed to <code>this.sendAction()</code>.
-The <a href="http://emberjs.com/api/classes/Ember.Component.html#method_sendAction">API documentation</a> says this in the text but the code samples do not show it.
-So instead your App.MySpecialComponent should look like this:</p>
-<div class="highlight"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
-    <span class="nx">clicked</span><span class="o">:</span> <span class="s1">&#39;mySpecialClicked&#39;</span><span class="p">,</span>
+<p>The above shows the basics. Create the Semaphore; when you need a resource call
+<code>WaitOne()</code> before using/requesting the resource, and when you are finished
+call <code>Release()</code> after finished/returning the resource. The arguments passed
+when creating a Semaphore tell the starting amount available and the limit. I
+did not see a specific need for making these numbers different but there is
+probably a specific use case where this is helpful.</p>
+<p>A more complete (though not necessaryly functional) example follows:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Pool</span> <span class="p">{</span>
+    <span class="k">private</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span> <span class="n">sem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+    <span class="k">private</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Queue</span> <span class="n">resources</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Queue</span><span class="p">();</span>
 
-    <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-            <span class="k">this</span><span class="p">.</span><span class="nx">sendAction</span><span class="p">(</span><span class="s1">&#39;clicked&#39;</span><span class="p">);</span>
+    <span class="k">public</span> <span class="kt">object</span> <span class="nf">get_resource</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">sem</span><span class="p">.</span><span class="n">WaitOne</span><span class="p">();</span>
+        <span class="k">lock</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// ... handle if no resources yet in our resources Queue</span>
+            <span class="k">return</span> <span class="n">resources</span><span class="p">.</span><span class="n">Dequeue</span><span class="p">();</span>
         <span class="p">}</span>
     <span class="p">}</span>
-<span class="p">});</span>
+
+    <span class="k">public</span> <span class="k">void</span> <span class="nf">release_resource</span><span class="p">(</span><span class="kt">object</span> <span class="n">res</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">lock</span><span class="p">(</span><span class="n">resources</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">resources</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">sem</span><span class="p">.</span><span class="n">Release</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </pre></div>
 
 
-<p>I really like the way that ember.js works and this is probably only a minor annoyance.
-However, I thought I would share in case someone else found themselves in the same quandary.</p>                </article>
+<p>Perhaps this will be helpful to someone.
+Either way it will be a good reference for me.</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
                     <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/an-interesting-issue-with-emberjs-component-actions.html" rel="bookmark"
+                           title="Permalink to An Interesting Issue with Ember.js Component Actions">An Interesting Issue with Ember.js Component Actions</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <span>Thu 24 October 2013</span>
+<span>| tags: <a href="/tag/emberjs.html">Ember.js</a><a href="/tag/javascript.html">JavaScript</a></span>
+</footer><!-- /.post-info -->                <p>I have been working on a project for work and ran into an issue with passing actions out of an Ember controller.
+I am using Ember 1.0.0. I found that the documentation as provided is unclear.</p>
+<p>So basically I have a component that has an action and I ...</p>
+                <a class="readmore" href="/an-interesting-issue-with-emberjs-component-actions.html">read more</a>
+                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
