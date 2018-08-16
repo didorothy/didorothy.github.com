@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-AUTHOR = u'David Dorothy'
-SITENAME = u'Ambiguous Insight'
+AUTHOR = 'David Dorothy'
+SITENAME = 'TruckTrip Software'
 SITEURL = ''
 
 PATH = 'content'
 
 TIMEZONE = 'America/New_York'
 
-DEFAULT_LANG = u'en'
+DEFAULT_LANG = 'English'
 
 THEME = 'theme'
 

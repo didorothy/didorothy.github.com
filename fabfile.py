@@ -8,7 +8,6 @@ import SocketServer
 from pelican.server import ComplexHTTPRequestHandler
 
 # Local path configuration (can be absolute or relative to fabfile)
-output_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'output')
 env.deploy_path = 'output'
 DEPLOY_PATH = env.deploy_path
 
@@ -22,7 +21,7 @@ env.cloudfiles_api_key = 'my_rackspace_api_key'
 env.cloudfiles_container = 'my_cloudfiles_container'
 
 # Github Pages configuration
-env.github_pages_branch = "gh-pages"
+env.github_pages_branch = "master"
 
 # Port for `serve`
 PORT = 8000
@@ -31,16 +30,15 @@ def clean():
     """Remove generated files"""
     if os.path.isdir(DEPLOY_PATH):
         shutil.rmtree(DEPLOY_PATH)
-    os.makedirs(DEPLOY_PATH)
+        os.makedirs(DEPLOY_PATH)
 
 def build():
     """Build local version of site"""
     local('pelican -s pelicanconf.py')
 
 def rebuild():
-    """`clean` then `build`"""
-    clean()
-    build()
+    """`build` with the delete switch"""
+    local('pelican -d -s pelicanconf.py')
 
 def regenerate():
     """Automatically regenerate site upon file modification"""
@@ -90,20 +88,5 @@ def publish():
 
 def gh_pages():
     """Publish to GitHub Pages"""
-    clean()
-    local("git submodule init")
-    local("git submodule update")
-    #local("git submodule add https://github.com/didorothy/didorothy.github.com {deploy_path}".format(**env))
-    #local("git clone git@github.com:didorothy/didorothy.github.io.git {deploy_path}".format(**env))
-    for name in os.listdir(DEPLOY_PATH):
-        if name.startswith('.'):
-            continue
-        if os.path.isdir(os.path.join(DEPLOY_PATH, name)):
-            shutil.rmtree(os.path.join(DEPLOY_PATH, name))
-        else:
-            os.remove(os.path.join(DEPLOY_PATH, name))
-    build()
-    os.chdir(DEPLOY_PATH)
-    local("git add .")
-    local('git commit -m "Fresh build"')
-    local("git push git@github.com:didorothy/didorothy.github.io.git master".format(**env))
+    rebuild()
+    local("ghp-import -b {github_pages_branch} {deploy_path} -p".format(**env))
