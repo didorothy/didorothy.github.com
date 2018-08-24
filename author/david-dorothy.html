@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="english">
 <head>
         <meta charset="utf-8" />
-        <title>Ambiguous Insight - David Dorothy</title>
+        <title>TruckTrip Software - David Dorothy</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -12,7 +12,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Ambiguous Insight </a></h1>
+                <h1><a href="/">TruckTrip Software </a></h1>
                 <nav><ul>
                     <li><a href="/category/django.html">Django</a></li>
                     <li><a href="/category/misc.html">misc</a></li>
@@ -37,7 +37,7 @@ upper limit.</p>
 to limit the total number of resources that were available for use. Simply
 create a Semaphore and tell it how many resources you want to make available.
 Something like the following provides the basics:</p>
-<div class="highlight"><pre><span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span> <span class="n">sem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span> <span class="n">sem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
 
 <span class="c1">// reserve a resource</span>
 <span class="n">sem</span><span class="p">.</span><span class="n">WaitOne</span><span class="p">();</span>
@@ -54,7 +54,7 @@ when creating a Semaphore tell the starting amount available and the limit. I
 did not see a specific need for making these numbers different but there is
 probably a specific use case where this is helpful.</p>
 <p>A more complete (though not necessaryly functional) example follows:</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">Pool</span> <span class="p">{</span>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pool</span> <span class="p">{</span>
     <span class="k">private</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span> <span class="n">sem</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Semaphore</span><span class="p">(</span><span class="m">5</span><span class="p">,</span> <span class="m">5</span><span class="p">);</span>
     <span class="k">private</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Queue</span> <span class="n">resources</span> <span class="p">=</span> <span class="k">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Collections</span><span class="p">.</span><span class="n">Queue</span><span class="p">();</span>
 
@@ -95,7 +95,7 @@ Either way it will be a good reference for me.</p>                </article>
 <span>| tags: <a href="/tag/emberjs.html">Ember.js</a><a href="/tag/javascript.html">JavaScript</a></span>
 </footer><!-- /.post-info -->                <p>I have been working on a project for work and ran into an issue with passing actions out of an Ember controller.
 I am using Ember 1.0.0. I found that the documentation as provided is unclear.</p>
-<p>So basically I have a component that has an action and I ...</p>
+<p>So basically I have a component that has an action and I …</p>
                 <a class="readmore" href="/an-interesting-issue-with-emberjs-component-actions.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -113,7 +113,7 @@ I am using Ember 1.0.0. I found that the documentation as provided is unclear.</
 </footer><!-- /.post-info -->                <p>The Django Admin app provides great functionality when roughing out a new feature in a web application.
 There are a few limits that will occasionally reveal themselves.
 One of these limits is creating an object with two levels of dependent related objects.</p>
-<p>So, what do I mean by "two levels ...</p>
+<p>So, what do I mean by "two levels …</p>
                 <a class="readmore" href="/django-admin-and-three-level-model-relationships.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -132,7 +132,7 @@ One of these limits is creating an object with two levels of dependent related o
 Low rates. Peace of mind.
 Unfortunately, the developer side of things leaves much to be desired.</p>
 <p>PayPal has some of the most extensive documentation around.
-They have very detailed API documentation that indicates deprecated fields, when fields ...</p>
+They have very detailed API documentation that indicates deprecated fields, when fields …</p>
                 <a class="readmore" href="/my-paypal-perspective.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -152,7 +152,7 @@ with poorly documented APIs.
 However, recently I learned that shipping and addressing could be a struggle.</p>
 <p>I have written integrations for postal services in the past and have had little
 issue.
-Familiarity enables us to understand ...</p>
+Familiarity enables us to understand …</p>
                 <a class="readmore" href="/shipping-and-addressing.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -171,7 +171,7 @@ Familiarity enables us to understand ...</p>
 Mac had no appeal and Linux was too technical.</p>
 <p>How opinions change! Now I predominantly use OS X and am very comfortable in
 Linux, both on the command line and in a GUI.</p>
-<p>One trick I learned ...</p>
+<p>One trick I learned …</p>
                 <a class="readmore" href="/never-install.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>
@@ -190,7 +190,7 @@ Linux, both on the command line and in a GUI.</p>
 I have found that random bits of knowledge are discovered every week and yet I
 never take the time to record much of it. This is my attempt to capture that
 fleeting insight.</p>
-<p>So look forward to ...</p>
+<p>So look forward to …</p>
                 <a class="readmore" href="/intro.html">read more</a>
                 </div><!-- /.entry-content -->
             </article></li>

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="english">
 <head>
         <meta charset="utf-8" />
-        <title>Ambiguous Insight - JavaScript</title>
+        <title>TruckTrip Software - JavaScript</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -12,7 +12,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Ambiguous Insight </a></h1>
+                <h1><a href="/">TruckTrip Software </a></h1>
                 <nav><ul>
                     <li><a href="/category/django.html">Django</a></li>
                     <li><a href="/category/misc.html">misc</a></li>
@@ -32,7 +32,7 @@
 I am using Ember 1.0.0. I found that the documentation as provided is unclear.</p>
 <p>So basically I have a component that has an action and I want to pass that action out to the parent controller.
 The <a href="http://emberjs.com/guides/components/sending-actions-from-components-to-your-application/">documentation</a> makes it appear that the following code is all that is needed:</p>
-<div class="highlight"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<div class="highlight"><pre><span></span><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
     <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>
         <span class="nx">click</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
             <span class="k">this</span><span class="p">.</span><span class="nx">sendAction</span><span class="p">(</span><span class="s1">&#39;mySpecialClicked&#39;</span><span class="p">);</span>
@@ -54,7 +54,7 @@ The <a href="http://emberjs.com/guides/components/sending-actions-from-component
 Instead the App.MySpecialComponent class must have a property named the same as the string passed to <code>this.sendAction()</code>.
 The <a href="http://emberjs.com/api/classes/Ember.Component.html#method_sendAction">API documentation</a> says this in the text but the code samples do not show it.
 So instead your App.MySpecialComponent should look like this:</p>
-<div class="highlight"><pre><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
+<div class="highlight"><pre><span></span><span class="nx">App</span><span class="p">.</span><span class="nx">MySpecialComponent</span> <span class="o">=</span> <span class="nx">Ember</span><span class="p">.</span><span class="nx">Component</span><span class="p">.</span><span class="nx">extend</span><span class="p">({</span>
     <span class="nx">clicked</span><span class="o">:</span> <span class="s1">&#39;mySpecialClicked&#39;</span><span class="p">,</span>
 
     <span class="nx">actions</span><span class="o">:</span> <span class="p">{</span>

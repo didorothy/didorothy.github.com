@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="english">
 <head>
         <meta charset="utf-8" />
-        <title>Ambiguous Insight - Django</title>
+        <title>TruckTrip Software - Django</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
 
         <!--[if IE]>
@@ -12,7 +12,7 @@
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Ambiguous Insight </a></h1>
+                <h1><a href="/">TruckTrip Software </a></h1>
                 <nav><ul>
                     <li><a href="/category/django.html">Django</a></li>
                     <li><a href="/category/misc.html">misc</a></li>
@@ -33,7 +33,7 @@ There are a few limits that will occasionally reveal themselves.
 One of these limits is creating an object with two levels of dependent related objects.</p>
 <p>So, what do I mean by "two levels of dependent related objects?"
 Look at the following Model declarations:</p>
-<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>  
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>  
     <span class="n">title</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
 <span class="k">class</span> <span class="nc">B</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
@@ -62,7 +62,7 @@ As I thought about it I decided I wanted something that was flexible enough that
 <p>You can see the full repository here: <a href="https://github.com/didorothy/mlrma">https://github.com/didorothy/mlrma</a></p>
 <p>Basically, I created a class, MlrmaModelForm, that inherited from ModelForm that allows for you to associate multiple FormSet classes with the form in an array when you declare your class that inherits from MlrmaModelForm. Then to use that MlrmaModelForm class in an admin interface you merely define a class that inherits from MlrmaStackedInline and uses your form class.</p>
 <p>It would look something like the following if you used the above model structure:</p>
-<div class="highlight"><pre><span class="n">CFormSet</span> <span class="o">=</span> <span class="n">modelformset_factory</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">can_delete</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exclude</span><span class="p">(</span><span class="s">&#39;b&#39;</span><span class="p">,))</span>
+<div class="highlight"><pre><span></span><span class="n">CFormSet</span> <span class="o">=</span> <span class="n">modelformset_factory</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">can_delete</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">exclude</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,))</span>
 
 
 <span class="k">class</span> <span class="nc">BForm</span><span class="p">(</span><span class="n">MlrmaModelForm</span><span class="p">):</span>  
