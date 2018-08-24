@@ -2,6 +2,7 @@ Title: C# Semaphore
 Date: 2015-08-10
 Category: Programming
 Tags: .NET, C#
+Slug: c-semaphore
 
 While working on building a resource pool I ran across a very interesting tool:
 `System.Threading.Semaphore`. Initially I thought that this would be used to

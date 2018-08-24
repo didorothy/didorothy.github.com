@@ -1,6 +1,7 @@
 Title: Never Install
 Date: 2012-12-18
 Category: opinion
+Slug: never-install
 
 I used to be a Windows person. Windows was my preferred operating system.
 Mac had no appeal and Linux was too technical.

@@ -1,6 +1,7 @@
 Title: My PayPal Perspective
 Date: 2013-06-13
 Category: opinion
+Slug: my-paypal-perspective
 
 PayPal offers a great service to individuals. Ease of making and receiving payment.
 Low rates. Peace of mind.

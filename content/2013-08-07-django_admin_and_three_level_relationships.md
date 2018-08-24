@@ -2,6 +2,7 @@ Title: Django Admin and Three Level Model Relationships
 Date: 2013-08-07
 Category: Django
 Tags: Django, Python
+Slug: django-admin-and-three-level-model-relationships
 
 The Django Admin app provides great functionality when roughing out a new feature in a web application.
 There are a few limits that will occasionally reveal themselves.

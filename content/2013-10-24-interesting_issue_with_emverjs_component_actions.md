@@ -2,6 +2,7 @@ Title: An Interesting Issue with Ember.js Component Actions
 Date: 2013-10-24
 Category: Programming
 Tags: Ember.js, JavaScript
+Slug: an-interesting-issue-with-emberjs-component-actions
 
 I have been working on a project for work and ran into an issue with passing actions out of an Ember controller.
 I am using Ember 1.0.0. I found that the documentation as provided is unclear.

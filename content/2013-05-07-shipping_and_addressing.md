@@ -1,6 +1,7 @@
 Title: Shipping and Addressing
 Date: 2013-05-07
 Category:
+Slug: shipping-and-addressing
 
 I always thought that the biggest problem I would have with shipping would be
 with poorly documented APIs.
